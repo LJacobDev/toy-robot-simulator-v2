@@ -7,11 +7,11 @@ import Database from 'better-sqlite3';
 
   Service unit tests are having issue with database:
 
-	My method seems to not be able to access the database inside the unit tests 
+  My method seems to not be able to access the database inside the unit tests 
 	
-	But the method works in normal app running, and in manual testing
+  But the method works in normal app running, and in manual testing
 
-	So I'm leaving these tests as representative of what they would be checking for until I fix it
+  So I'm leaving these tests as representative of what they would be checking for until I fix it
 
   Error example:
 
@@ -19,7 +19,7 @@ import Database from 'better-sqlite3';
 
     TypeError: Cannot read properties of undefined (reading 'prepare')
 
-      55 |   remove() {
+      55 |   removeAll() {
       56 |     
     > 57 |     const stmt = this.db.prepare(`DELETE FROM positions`)
          |                          ^
@@ -37,44 +37,42 @@ import Database from 'better-sqlite3';
 
 describe('PositionsService', () => {
   let service: PositionsService;
+
+  // create a better-sqlite3 database in RAM for testing
   let db: Database.Database;
 
-    // create a better-sqlite3 database in RAM for testing
+
+  beforeEach(async () => {
+
     db = new Database(':memory:');
 
     db.exec(`
-      CREATE TABLE IF NOT EXISTS positions(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        x INTEGER NOT NULL,
-        y INTEGER NOT NULL,
-        f TEXT NOT NULL,
-        createdAt DEFAULT CURRENT_TIMESTAMP
-      );
-    `);
+        CREATE TABLE IF NOT EXISTS positions(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          x INTEGER NOT NULL,
+          y INTEGER NOT NULL,
+          f TEXT NOT NULL,
+          createdAt DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
 
-  beforeEach(async () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [PositionsService],
     }).compile();
 
     service = module.get<PositionsService>(PositionsService);
-
-
-
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     db.close();
   });
 
-  // kept for reference, ok to delete
-  // it('should be defined and have scaffolding placeholder text', () => {
-  //   expect(service).toBeDefined();
-  //   expect(service.findAll()).toBe('This action returns all positions')
-  // });
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
 
-  
+
   // Helper functions
 
   /**
@@ -82,23 +80,20 @@ describe('PositionsService', () => {
    * @returns The created record
    */
   function seedPosition() {
-    
-  // debug findings: direct database in memory access works
-  // but not when calling the service method
     db.prepare(`
         INSERT INTO positions (x, y, f)
         VALUES (0, 0, 'North');
       `).run();
-
-  // return service.create({x:0, y:0, f:'North'});
   }
 
-  
-  
-  
-  describe('remove', () => {
+
+
+
+  describe('removeAll', () => {
 
     beforeEach(() => {
+
+      db = new Database(':memory:');
 
       db.exec(`
         CREATE TABLE IF NOT EXISTS positions(
@@ -113,42 +108,120 @@ describe('PositionsService', () => {
     })
 
     afterEach(() => {
-      db.exec(`DROP TABLE positions`);
+      db.close();
     })
 
-    
-    // skipping because positions.service use of db is broken.
-    // see service.remove() comment
-    it.skip('should delete all records in the table', () => {
+
+    it('should delete all records in the table', () => {
 
       // seed the table with two records
       seedPosition();
       seedPosition();
 
       const seededRows = db.prepare('SELECT * FROM positions').all();
-
       expect(seededRows).toHaveLength(2);
 
-      // DEBUG FINDINGS: direct database in memory access works 
-      // but not when calling the service method
+      // DEBUG FINDINGS: database in memory works here,
+      // database fails inside the service method when calling it
 
-      // this part is broken until I can get rid of TypeError
-      // about `remove()` this.db.prepare statement in positions.service
+      // This service.removeAll() line was broken due to:
+      // `TypeError: Cannot read properties of undefined (reading 'prepare')`
+      // Caused by statement: `this.db.prepare()` in positions.service.ts
       // when running that service from within this test context
-      service.remove();
+
+      // Solution for now:
+      // Pass db in as a new optional argument to method.
+      // removeAll() (and other methods) have been updated to use it
+      service.removeAll(db);
 
       // run GET again and expect back empty array
       const deletedRows = db.prepare('SELECT * FROM positions').all();
 
       expect(deletedRows).toHaveLength(0);
-      expect(deletedRows).toBe([]);
+      expect(deletedRows).toStrictEqual([]);
 
     })
 
     // skipped due to issue with service db mentioned in test above
-    it.skip('should return { deleted: true } when completed', () => {
-      expect(service.remove()).toBe({deleted: true});
+    it('should return { deleted: true } when completed', () => {
+      expect(service.removeAll(db)).toStrictEqual({ deleted: true });
     })
   });
 
+
+  describe('findAll', () => {
+
+    beforeEach(() => {
+
+      db = new Database(':memory:');
+
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS positions(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          x INTEGER NOT NULL,
+          y INTEGER NOT NULL,
+          f TEXT NOT NULL,
+          createdAt DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+
+    });
+
+    afterEach(() => {
+      db.close();
+    });
+
+
+    it('should return an empty data array if no records', () => {
+
+      const serviceRows = service.findAll(db);
+      expect(serviceRows).toHaveLength(0);
+
+    });
+
+    it('should return an array of records if there are any', () => {
+
+      // seed the table with two records
+      seedPosition();
+      seedPosition();
+
+      const serviceRows = service.findAll(db);
+      expect(serviceRows).toHaveLength(2);
+      expect(serviceRows[0].x).toBe(0);
+      expect(serviceRows[1].x).toBe(0);
+    });
+
+
+
+  });
+
+
+  describe('create', () => {
+
+    beforeEach(() => {
+
+      db = new Database(':memory:');
+
+      db.exec(`
+        CREATE TABLE IF NOT EXISTS positions(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          x INTEGER NOT NULL,
+          y INTEGER NOT NULL,
+          f TEXT NOT NULL,
+          createdAt DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+
+    });
+
+    afterEach(() => {
+      db.close();
+    });
+
+
+    it('Returns the object created', () => {
+      expect(true).toBe(false);
+    });
+
+  });
 });

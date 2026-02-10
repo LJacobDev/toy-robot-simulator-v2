@@ -38,10 +38,13 @@ export class PositionsService implements OnModuleDestroy, OnModuleInit {
    * 
    * @returns the latest position history record with id and createdAt provided by database
    */
-  create(createPositionDto: CreatePositionDto) {
+  create(createPositionDto: CreatePositionDto, testDb?: Database.Database) {
 
     // First, run a SQL query to insert the record
-    const stmt = this.db.prepare(`
+    const stmt = testDb ? testDb.prepare(`
+        INSERT INTO positions (x, y, f)
+        VALUES (?, ?, ?);
+      `) : this.db.prepare(`
         INSERT INTO positions (x, y, f)
         VALUES (?, ?, ?);
       `)
@@ -54,7 +57,9 @@ export class PositionsService implements OnModuleDestroy, OnModuleInit {
 
     // Second, retrieve the last created row to return it to client 
     // with proof of database-produced id and timestamp
-    const lastInsertedRecord = this.db.prepare(`
+    const lastInsertedRecord = testDb ? testDb.prepare(`
+      SELECT * FROM positions WHERE id = ?
+      `).get(postResult.lastInsertRowid) : this.db.prepare(`
       SELECT * FROM positions WHERE id = ?
       `).get(postResult.lastInsertRowid);
 
@@ -72,8 +77,10 @@ export class PositionsService implements OnModuleDestroy, OnModuleInit {
    * If ever uncertain about whether rows are in correct order,
    * refer to createdAt field to verify.
    */
-  findAll() {
-    const stmt = this.db.prepare(`SELECT * FROM positions`)
+  findAll(testDb?: Database.Database) {
+
+    const stmt = testDb ? testDb.prepare(`SELECT * FROM positions`) : this.db.prepare(`SELECT * FROM positions`)
+
     const result = stmt.all();
 
     return result;
@@ -82,11 +89,12 @@ export class PositionsService implements OnModuleDestroy, OnModuleInit {
   /**
    * Removes ALL historical position history to allow clearing game data
    * 
+   * @param testDB Optional: unit tests can pass into here a mock DB or SQLite DB stored in RAM using :memory:
    * @returns `{ deleted:true }` upon running successfully, otherwise `500 Internal Server Error`
    */
-  remove() {
+  removeAll(testDb?: Database.Database) {
 
-    const stmt = this.db.prepare(`DELETE FROM positions`)
+    const stmt = testDb ? testDb.prepare(`DELETE FROM positions`) : this.db.prepare(`DELETE FROM positions`)
 
     stmt.run();
 

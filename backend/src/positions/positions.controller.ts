@@ -19,8 +19,8 @@ export class PositionsController {
   }
 
   @Delete()
-  remove() {
-    return this.positionsService.remove();
+  removeAll() {
+    return this.positionsService.removeAll();
   }
 
   /**
