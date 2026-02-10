@@ -1,8 +1,6 @@
+# Toy Robot Simulator V2
 
-
-
-
-
+ - sqlite was originally not being gitignored on purpose but now it seems unimportant to keep in repo
 
 
 # original README from nest installation for run commands to mix in final README

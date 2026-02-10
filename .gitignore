@@ -1,9 +1,8 @@
-# Intentionally keeping SQLite Database in the repo so that it is available as test data
-!*.sqlite
-
 dist
 coverage
 node_modules
+
+*.sqlite
 
 *.log
 env.*
