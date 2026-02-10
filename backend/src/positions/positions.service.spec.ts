@@ -2,39 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PositionsService } from './positions.service';
 import Database from 'better-sqlite3';
 
-
-/*
-
-  Service unit tests are having issue with database:
-
-  My method seems to not be able to access the database inside the unit tests 
-	
-  But the method works in normal app running, and in manual testing
-
-  So I'm leaving these tests as representative of what they would be checking for until I fix it
-
-  Error example:
-
-  ● PositionsService › remove › should return { deleted: true } when completed
-
-    TypeError: Cannot read properties of undefined (reading 'prepare')
-
-      55 |   removeAll() {
-      56 |     
-    > 57 |     const stmt = this.db.prepare(`DELETE FROM positions`)
-         |                          ^
-      58 |     
-      59 |     stmt.run();
-      60 |
-
-      at PositionsService.remove (positions/positions.service.ts:57:26)
-      at Object.<anonymous> (positions/positions.service.spec.ts:62:22)
-
- */
-
-
-
-
 describe('PositionsService', () => {
   let service: PositionsService;
 
@@ -86,6 +53,14 @@ describe('PositionsService', () => {
       `).run();
   }
 
+  /**
+   * Generates a body payload that can be sent to create
+   * @params  x, y, f are all optional and will default to 0, 0, 'North' if not specified
+   * @returns The prepared body payload
+   */
+  function generatePosition(x?: number, y?: number, f?: string) {
+    return { x: x ?? 0, y: y ?? 0, f: f ?? 'North' }
+  }
 
 
 
@@ -195,6 +170,7 @@ describe('PositionsService', () => {
 
   });
 
+  
 
   describe('create', () => {
 
@@ -220,7 +196,18 @@ describe('PositionsService', () => {
 
 
     it('Returns the object created', () => {
-      expect(true).toBe(false);
+
+      const dto = generatePosition(1,1,'East');
+
+      const result = service.create(dto, db);
+
+      expect(result).toBeDefined();
+      expect(result.id).toBeDefined();
+      expect(result.x).toBe(1);
+      expect(result.y).toBe(1);
+      expect(result.f).toBe('East');
+      expect(result.createdAt).toBeDefined();
+
     });
 
   });
