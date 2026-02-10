@@ -1,5 +1,5 @@
 # Intentionally keeping SQLite Database in the repo so that it is available as test data
-# *.sqlite
+!*.sqlite
 
 dist
 coverage
