@@ -17,4 +17,13 @@ describe('PositionsController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  
+  // Positions controller does little outside of delegating to service.
+  
+  // Unit tests will place emphasis on positions service methods.
+
+  // If time permits, adding an e2e test would be an effective way.
+
+  // to still have test coverage on positions controller functionality.
 });

@@ -17,18 +17,31 @@ export class PositionsController {
     return this.positionsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.positionsService.findOne(+id);
+  @Delete()
+  remove() {
+    return this.positionsService.remove();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePositionDto: UpdatePositionDto) {
-    return this.positionsService.update(+id, updatePositionDto);
-  }
+  /**
+   * GET api/positions/:id intentionally not implemented
+   * There is no intention in API to let client to retrieve one position
+   * This was created while generating resource, and is being
+   * left in for convenience in case of future need
+   */
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.positionsService.findOne(+id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.positionsService.remove(+id);
-  }
+  /**
+   * PATCH api/positions/:id intentionally not implemented
+   * There is no need to update existing historical positions
+   * This was created while generating resource, and is being
+   * left in for convenience in case of future need
+   */
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updatePositionDto: UpdatePositionDto) {
+  //   return this.positionsService.update(+id, updatePositionDto);
+  // }
+
 }
