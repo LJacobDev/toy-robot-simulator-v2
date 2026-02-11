@@ -8,12 +8,15 @@ const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositi
 
 const { gridTiles, generateGrid } = useGame();
 
-let placed = ref(false);
+// reference to robot character tile
+let robot: HTMLElement | null;
+let arrow: HTMLElement | null;
+
 const currentPosition = ref({x:0,y:0,f:''});
 
 // This will show 'Report' when the player is not on the board, and will show their current co-ordinates and direction if they are on the board
 const report = computed(() => {
-  return placed ? `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` : 'Report'
+  return currentPosition.value.f == 'notPlaced' ? 'Report' : `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` 
 });
 
 
@@ -25,8 +28,6 @@ const gridTileClick = (event: any) => {
 
   const clickData = event.target.dataset;
 
-  placed.value = true;
-
   console.log(
     clickData.x, 
     clickData.y,
@@ -34,23 +35,36 @@ const gridTileClick = (event: any) => {
     clickData.col,
   );
 
-  currentPosition.value = {
-    x: clickData.x,
-    y: clickData.y,
-    f: 'North'
+  if(currentPosition.value.f == 'notPlaced') {
+    currentPosition.value = {
+      x: clickData.x,
+      y: clickData.y,
+      f: 'North'
+    }
   }
-
-
-  const robot = document.getElementById('robot-tile')
+  else {
+    currentPosition.value.x = clickData.x;
+    currentPosition.value.y = clickData.y;
+  }
+  
+  
   if (robot){
     robot.style.gridColumn = clickData.col;
     robot.style.gridRow = clickData.row;
+
+    robot.style.visibility = 'visible';
+  }
+  if (arrow){
+    arrow.classList.add('North');
   }
 
 }
 
 
 onMounted(async () => {
+
+  robot = document.getElementById('robot-tile');
+  arrow = document.getElementById('arrow');
 
   generateGrid(5);
 
@@ -60,8 +74,6 @@ onMounted(async () => {
 
   if (currentPosition.value.f != 'notPlaced') {
     console.log('there is a latest position and the robot will be assigned it')
-    placed = true;
-
   }
   else {
     console.log('there is no latest position and the robot will not be on the board');
@@ -84,7 +96,7 @@ onMounted(async () => {
       <div class="grid">
 
         <!-- Player Robot Character -->
-        <div id="robot-tile" style="visibility: visible;">
+        <div id="robot-tile" style="visibility: hidden;">
           <div id="robot">
             <div id="robot-head">
               <div class="robot-eye"></div>
@@ -92,7 +104,7 @@ onMounted(async () => {
             </div>
             <div id="robot-body"></div>
           </div>
-          <div id="arrow" class="east">></div>
+          <div id="arrow" class="">></div>
         </div>
 
         <!-- Grid Tiles -->

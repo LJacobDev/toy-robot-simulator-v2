@@ -109,14 +109,14 @@ by changing its grid-column and grid-row */
     color:  var(--color-primary);
 }
 
-#arrow.east {
+#arrow.East {
     position-anchor: --robot;
     position-area: right center;
     margin: 5px;
     scale: 55% 120%;
 }
 
-#arrow.south {
+#arrow.South {
     position-anchor: --robot;
     position-area: bottom center ;
     margin: -5px;
@@ -124,7 +124,7 @@ by changing its grid-column and grid-row */
     scale: 120% 55%;
 }
 
-#arrow.west {
+#arrow.West {
     position-anchor: --robot;
     position-area: center left ;
     margin: 5px;
@@ -132,7 +132,7 @@ by changing its grid-column and grid-row */
     scale: 55% 120%;
 }
 
-#arrow.north {
+#arrow.North {
     position-anchor: --robot;
     position-area: top center ;
     margin: -5px;
