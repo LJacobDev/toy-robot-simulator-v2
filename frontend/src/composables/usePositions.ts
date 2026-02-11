@@ -1,64 +1,103 @@
 import { ref } from "vue";
 
+// makes showing loading states possible
 const loading = ref(false);
-const error = ref(null);
-const placed = ref(false);
-const latestPosition = ref({});
+
+const APIPath = import.meta.env.MODE == 'production' ? 'api/positions' : 'http://localhost:3000/api/positions';
+
 
 
 /**
  * Uses GET request to api/positions to get all positions, so that the 
  * robot's latest position can be determined 
  * 
+ * @returns An object with shape `{x: number, y: number, f: string}` if there is a position, otherwise returns `undefined`
+ *
+ * Currently logs errors in the console rather than throwing
  */
 const getLatestPosition = async () => {
 
-    let APIPath;
-  
-  try {
+    let latestPosition;
 
-    loading.value = true;
-    
-    if (import.meta.env.MODE == 'production') {
-      APIPath = 'api/positions';
+    try {
+
+        loading.value = true;
+
+        const response = await fetch(APIPath);
+        const positionsJSON = await response.json();
+
+        // set the latest position to either an existing value or keep it the same as an empty object
+        latestPosition = positionsJSON[positionsJSON.length - 1] ?? latestPosition;
     }
-    else  {
-      APIPath = 'http://localhost:3000/api/positions';
+    catch (e) {
+        console.log("API fetching error: ", e);
+    }
+    finally {
+        loading.value = false;
     }
 
-    const response = await fetch(APIPath);
-    const positionsJSON = await response.json();
-
-    const lastElement = positionsJSON[positionsJSON.length - 1];
-
-    // If there is an element in the array
-    // set latestPosition to hold it,
-    // also set placed to true so other commands can be used
-    
-    if (lastElement){
-        latestPosition.value = lastElement;
-        placed.value = true;
-    }
-    
-    // if there is no latest position, it will count as though the robot has not been placed yet, and no commands will be followed until the user clicks a tile to place the robot
-
-  }
-  catch (e) {
-    console.log("API fetching error: ", e);
-  }
-  finally {
-    loading.value = false; 
-  }
-
-  return latestPosition;
+    return latestPosition;
 
 };
 
 
 
 
+/**
+ * Save the current position as a new record in the database through the API
+ * 
+ * @param position Pass in an object in the following shape {x: 0, y:0, f: 'North'}
+ * 
+ * Currently logs errors in the console rather than throwing
+ */
+const saveCurrentPosition = async (position: object) => {
 
-const saveCurrentPosition = async () => {
+    // take the position and use a POST to api/positions
+
+    try{
+
+        const response = await fetch(APIPath, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(position)
+        })
+        
+        const json = await response.json();
+
+        console.log("post results: ", json);
+
+    }
+    catch (e) {
+        console.log("API POST error: ", e);
+    }
+
+
+}
+
+/**
+ * Deletes all positions in the database.  Use only if you want to clear the entire position history.
+ * 
+ * Currently logs errors in the console rather than throwing
+ */
+const deleteAllPositions = async () => {
+
+    try{
+
+        const response = await fetch(APIPath, {
+            method: "DELETE"
+        })
+        
+        const json = await response.json();
+
+        console.log("delete results: ", json);
+
+    }
+    catch (e) {
+        console.log("API DELETE error: ", e);
+    }
+
 
 }
 
@@ -70,8 +109,8 @@ export default function usePositions() {
 
     return {
         loading,
-        error,
         getLatestPosition,
         saveCurrentPosition,
+        deleteAllPositions,
     }
 }

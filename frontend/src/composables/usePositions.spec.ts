@@ -5,9 +5,11 @@ const { getLatestPosition } = usePositions();
 
 describe('getLatestPosition', () => {
 
-    it('Fetches a value from API', async () => {
+    it('Performs round trip API events', async () => {
         
         const result = await getLatestPosition();
+
+        console.log('latest position value', result)
 
         expect(result).toBeDefined();
         
