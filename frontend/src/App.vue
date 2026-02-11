@@ -35,12 +35,7 @@ const gridTileClick = (event: any) => {
 
   const clickData = event.target.dataset;
 
-  console.log(
-    clickData.x, 
-    clickData.y,
-    clickData.row, 
-    clickData.col,
-  );
+  console.log(clickData.x, clickData.y, clickData.row, clickData.col);
 
   // The robot's coordinates are tracked by x and y,
   // however to place the robot on the grid it needs
@@ -49,7 +44,7 @@ const gridTileClick = (event: any) => {
     robot.style.gridColumn = clickData.col;
     robot.style.gridRow = clickData.row;
 
-    if (robot.style.visibility != 'visible')
+    if (robot.style.visibility == 'hidden')
     robot.style.visibility = 'visible';
   }
 
@@ -199,18 +194,32 @@ const moveRobot = (x: number, y: number) => {
 
 
 
-
+// Initial setup on mount
 onMounted(async () => {
 
   // get references to the robot-tile and arrow elements to move them 
   robot = document.getElementById('robot-tile');
   arrow = document.getElementById('arrow');
 
-  // generate a grid of size 5 x 5
+  // generate a grid of size GRID_SIZE x GRID_SIZE
   generateGrid(GRID_SIZE);
 
+  // Retrieve last saved position from database
   currentPosition.value = await getLatestPosition();
 
+
+  // add keydown events for the arrow keys to trigger the same movement handlers that the buttons activate
+  document.addEventListener('keydown', (event) => {
+    if(event.code == 'ArrowLeft')
+      turnLeft();
+    if(event.code == 'ArrowRight')
+      turnRight();
+    if(event.code == 'ArrowDown' || event.code == 'ArrowUp')
+      moveForward();
+  })
+
+  
+  // Debug info - this can be deleted
   console.log('app.vue log latestposition is ', currentPosition.value);
 
   if (currentPosition.value.f == 'notPlaced') {
@@ -220,15 +229,7 @@ onMounted(async () => {
       console.log('there is a latest position and the robot will be assigned it')
   }
 
-
-  document.addEventListener('keydown', (event) => {
-    if(event.code == 'ArrowLeft')
-      turnLeft();
-    if(event.code == 'ArrowRight')
-      turnRight();
-    if(event.code == 'ArrowDown' || event.code == 'ArrowUp')
-      moveForward();
-  })
+  
 
 });
 
@@ -268,9 +269,7 @@ onMounted(async () => {
           'grid-column': gridTile.col}"
           @click="gridTileClick"
           class="grid-tile">
-            <!-- {{ gridTile.x }},
-            {{ gridTile.y }} -->
-          </div>
+        </div>
       </div>
 
       <!-- Console Area (Buttons and Output) -->
@@ -279,9 +278,6 @@ onMounted(async () => {
           <button @click="turnLeft">Left</button>
           <button @click="moveForward">Move</button>
           <button @click="turnRight">Right</button>
-          <!-- <button >Left</button>
-          <button >Move</button>
-          <button >Right</button> -->
         </div>
         <div class="output">
           <div class="report">{{ report }}</div>
