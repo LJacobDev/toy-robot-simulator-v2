@@ -1,5 +1,16 @@
-// import { describe, it, expect } from 'vitest'
-// import { gridTiles, generateGrid, moveRobotTile, turnRobot, updateRobotView } from './useGame'
+import { describe, it, expect } from 'vitest'
+import useGame from './useGame'
+
+// const { gridTiles, gridSize, moveRobot, turnRobot, updateRobotView } = useGame();
+
+describe('useGame', () => {
+    it('has a test stub (see plan below this test)', () => {
+        expect(true).toBe(true);
+    })
+})
+
+
+// TEST PLAN for useGame
 
 
 /**

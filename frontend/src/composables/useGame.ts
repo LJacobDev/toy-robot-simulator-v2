@@ -37,7 +37,7 @@ const generateGrid = (gridSize: number) => {
  * @param gridSize 
  * @returns The new position accounting for grid boundaries
  */
-const moveRobotTile = (currentPosition: { x: number, y: number, f: string }, gridSize: number) => {
+const moveRobot = (currentPosition: { x: number, y: number, f: string }, gridSize: number) => {
 
     // console.log('moving composable')
 
@@ -205,7 +205,7 @@ const updateRobotView = (robotTile: HTMLElement|null, arrow: HTMLElement|null, c
 
         console.log('current robot position', currentPosition.value);
 
-        console.log(robotTile.style.gridColumn);
+        // console.log(robotTile.style.gridColumn);
 
         // Take a given x, y of a currentposition
         // and change it into a row and column pairing
@@ -247,7 +247,7 @@ export default function useGame() {
     return {
         gridTiles,
         generateGrid,
-        moveRobotTile,
+        moveRobot,
         turnRobot,
         updateRobotView
     }

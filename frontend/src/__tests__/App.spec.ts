@@ -6,6 +6,6 @@ import App from '../App.vue'
 describe('App', () => {
   it('mounts renders properly', () => {
     const wrapper = mount(App)
-    expect(wrapper.text()).toContain('Test output')
+    expect(wrapper.text()).toContain('Click to place the robot')
   })
 })

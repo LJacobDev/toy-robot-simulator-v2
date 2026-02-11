@@ -51,7 +51,7 @@ const getLatestPosition = async () => {
  * 
  * Currently logs errors in the console rather than throwing
  */
-const saveCurrentPosition = async (position: object) => {
+const saveCurrentPosition = async (position: {x:number,y:number,f:string}) => {
     try {
         const response = await fetch(APIPath, {
             method: "POST",

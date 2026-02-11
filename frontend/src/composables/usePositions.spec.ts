@@ -31,6 +31,6 @@ describe('usePositions', () => {
 
         // check latest position to be sure there isn't one
         const deletedResult = await getLatestPosition()
-        expect(deletedResult).not.toBeDefined();
+        expect(deletedResult.f).toBe('notPlaced');
     })
 });

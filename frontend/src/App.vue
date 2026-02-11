@@ -6,7 +6,7 @@ import useGame from './composables/useGame';
 
 const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositions();
 
-const { gridTiles, generateGrid, updateRobotView, moveRobotTile, turnRobot } = useGame();
+const { gridTiles, generateGrid, updateRobotView, moveRobot, turnRobot } = useGame();
 
 // reference to robot character tile
 let robot: HTMLElement | null;
@@ -20,11 +20,6 @@ const report = computed(() => {
   return currentPosition.value.f == 'notPlaced' ? 'Report' : `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` 
 });
 
-
-watch(currentPosition, async (newPosition, oldPosition) => {
-  if(newPosition.f != 'notPlaced')
-    saveCurrentPosition(newPosition);
-})
 
 
 /**
@@ -69,96 +64,37 @@ const gridTileClick = (event: any) => {
     currentPosition.value.y = clickData.y;
   }
   
+  console.log('saving click placed position', currentPosition.value);
+  saveCurrentPosition(currentPosition.value)
 }
 
 const turnLeft = () => {
-
   turnRobot(arrow, -1, currentPosition);
-
-  // if (currentPosition.value.f == 'notPlaced')
-  //   return;
-
-  //   switch(arrow?.classList.value) {
-  //     case 'North': {
-  //       arrow.classList.remove('North');
-  //       arrow.classList.add('West');
-  //       currentPosition.value.f = 'West';
-  //       break;
-  //     }
-  //     case 'West': {
-  //       arrow.classList.remove('West');
-  //       arrow.classList.add('South');
-  //       currentPosition.value.f = 'South';
-  //       break;
-  //     }  
-  //     case 'South': {
-  //       arrow.classList.remove('South');
-  //       arrow.classList.add('East');
-  //       currentPosition.value.f = 'East';
-  //       break;
-  //     }  
-  //     case 'East': {
-  //       arrow.classList.remove('East');
-  //       arrow.classList.add('North');
-  //       currentPosition.value.f = 'North';
-  //       break;
-  //     }
-  //   }
-
-    console.log(arrow?.classList.value == 'North');
+  console.log('saving turn left position', currentPosition.value);
+  saveCurrentPosition(currentPosition.value)
 }
 
 const turnRight = () => {
-
   turnRobot(arrow, 1, currentPosition);
-
-
-  // if (currentPosition.value.f == 'notPlaced')
-  //   return;
-  
-  //   switch(arrow?.classList.value) {
-  //     case 'North': {
-  //       arrow.classList.remove('North');
-  //       arrow.classList.add('East');
-  //       currentPosition.value.f = 'East';
-  //       break;
-  //     }
-  //     case 'East': {
-  //       arrow.classList.remove('East');
-  //       arrow.classList.add('South');
-  //       currentPosition.value.f = 'South';
-  //       break;
-  //     }
-  //     case 'South': {
-  //       arrow.classList.remove('South');
-  //       arrow.classList.add('West');
-  //       currentPosition.value.f = 'West';
-  //       break;
-  //     }  
-  //     case 'West': {
-  //       arrow.classList.remove('West');
-  //       arrow.classList.add('North');
-  //       currentPosition.value.f = 'North';
-  //       break;
-  //     }
-  //   }
-
+  console.log('saving turn right position', currentPosition.value);
+  saveCurrentPosition(currentPosition.value)
 }
 
 const moveForward = () => {
 
-  // console.log('moving app');
-
-  const newPosition = moveRobotTile(currentPosition.value, GRID_SIZE);
+  const newPosition = moveRobot(currentPosition.value, GRID_SIZE);
 
   if (newPosition){
-    console.log('newposition', newPosition)
+
+    console.log('saving move position', currentPosition.value);
+    saveCurrentPosition(currentPosition.value)
+
+    // console.log('newposition', newPosition)
     currentPosition.value.x = newPosition.x;    currentPosition.value.y = newPosition.y;
     updateRobotView(robot, arrow, currentPosition, GRID_SIZE)
   }
 
 }
-
 
 
 // Initial setup on mount
@@ -179,12 +115,9 @@ onMounted(async () => {
     console.log('there is no latest position and the robot will not be on the board');
   }
   else {
-      console.log('there is a latest position and the robot will be assigned it')
-
-      updateRobotView(robot, arrow, currentPosition, GRID_SIZE);
-
+    console.log('there is a latest position and the robot will be assigned it')
+    updateRobotView(robot, arrow, currentPosition, GRID_SIZE);
   }
-
 
   // add keydown events for the arrow keys to trigger the same movement handlers that the buttons activate
   document.addEventListener('keydown', (event) => {
@@ -196,7 +129,6 @@ onMounted(async () => {
       moveForward();
   })
 
-  
   // Debug info - this can be deleted
   console.log('app.vue log latestposition is ', currentPosition.value);
 
