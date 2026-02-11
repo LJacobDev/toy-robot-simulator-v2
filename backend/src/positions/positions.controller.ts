@@ -4,7 +4,7 @@ import { CreatePositionDto } from './dto/create-position.dto';
 import { UpdatePositionDto } from './dto/update-position.dto';
 import { Position } from './entities/position.entity';
 
-@Controller('api/positions')
+@Controller('positions')
 export class PositionsController {
   constructor(private readonly positionsService: PositionsService) {}
 

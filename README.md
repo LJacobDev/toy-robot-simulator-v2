@@ -1,6 +1,52 @@
 # Toy Robot Simulator V2
 
+
+Rough version:
+
+
+this is made from a nestjs backend and a vuejs frontend
+
+vueJS is in /frontend
+
+it is designed to build to /backend/public as static assets served by nest
+
+``` setting up frontend
+
+cd frontend
+npm install
+npm run build   (should make index.html and index.js in /backend/public)
+```
+
+nestJS is in /backend
+
+``` setting up backend
+cd backend
+npm install
+npm run start
+
+or for watch mode:
+
+npm run start:dev
+```
+
+Nest runs server on localhost:3000
+
+No need to run vite dev server for frontend as this should just serve the built files and only run the one server
+
+However with CORS enabled on the nest server, it is still possible to use vite dev server on 5173 and fetch the API endpoint.
+
+
+
+
+
+# the rest of the text below are work in progress notes and not important
+
+
+
+ - include notes about things out of scope if helpful to show that they were thought about and not included, like how auth wasn't implemented on purpose
+ 
  - sqlite was originally not being gitignored on purpose but now it seems unimportant to keep in repo
+
 
 
 # original README from nest installation for run commands to mix in final README
