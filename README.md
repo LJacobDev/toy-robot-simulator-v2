@@ -38,10 +38,7 @@ However with CORS enabled on the nest server, it is still possible to use vite d
 
 
 
-
-# the rest of the text below are work in progress notes and not important
-
-
+--- mention somewhere that the grid size is customizeable by setting CSS custom properties
 
  - include notes about things out of scope if helpful to show that they were thought about and not included, like how auth wasn't implemented on purpose
  

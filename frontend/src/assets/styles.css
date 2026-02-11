@@ -1,0 +1,42 @@
+#app{
+    border-color:green;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.game-window {
+    background-color: var(--background-primary);
+    margin: auto;
+    width: 784px;
+    height: 794px;
+}
+
+.container{
+    padding: 20px 0px;
+    border-color:rgb(60, 182, 87);
+    min-height: 100%;
+    width: 70%;
+    margin: auto;
+}
+
+.instructions{
+    background-color: var(--background-secondary);
+    color: var(--font-light);
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.grid{
+    aspect-ratio: 1/1;
+    display: grid;
+    grid-template-columns: repeat(var(--grid-size), 1fr);
+    grid-template-rows: repeat(var(--grid-size), 1fr);
+}
+
+.grid-tile {
+    border-color: var(--grid-line);
+}

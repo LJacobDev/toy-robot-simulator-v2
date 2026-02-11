@@ -1,0 +1,15 @@
+:root{
+    /* Grid Size */
+    --grid-size: 5;
+
+    /* colours */
+    --background-primary: rgb(40, 43, 51);
+    --background-secondary: rgb(68, 82, 94);
+    --grid-line: rgb(100, 100, 100);
+
+    --font-light: white;
+    --font-dark: black;   
+
+    /* Fonts */
+    font-family: sans-serif;
+}
