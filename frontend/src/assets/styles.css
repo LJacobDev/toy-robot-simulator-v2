@@ -25,6 +25,7 @@ body {
 }
 
 .instructions{
+    font-weight:600;
     background-color: var(--background-secondary);
     color: var(--font-light);
     padding: 10px 20px;
