@@ -65,10 +65,11 @@ onMounted(async () => {
         <div 
           v-for="gridTile in gridTiles" 
           :key="gridTile.id"
-          data-x="0" 
-          data-y="0" 
-          data-row="5" 
-          data-col="1"  
+          :data-x="gridTile.x" 
+          :data-y="gridTile.y" 
+          :data-row="gridTile.row" 
+          :data-col="gridTile.col"  
+          :style="{'grid-row': gridTile.row, 'grid-column': gridTile.col}"
           class="grid-tile">{{ gridTile.x }},{{ gridTile.y }}</div>
       </div>
 
