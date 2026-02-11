@@ -139,27 +139,40 @@ const turnRight = () => {
 }
 
 const moveForward = () => {
-  if (currentPosition.value.f == 'notPlaced')
-    return;
+
+  // console.log('moving app');
+
+  const newPosition = moveRobotTile(currentPosition.value, GRID_SIZE);
+
+  if (newPosition){
+    console.log('newposition', newPosition)
+    currentPosition.value.x = newPosition.x;    currentPosition.value.y = newPosition.y;
+    updateRobotView(robot, arrow, currentPosition, GRID_SIZE)
+  }
+
+
+
+  // if (currentPosition.value.f == 'notPlaced')
+  //   return;
   
-    switch(arrow?.classList.value) {
-      case 'North': {
-          moveRobot(0,1);
-        break;
-      }
-      case 'East': {
-          moveRobot(1,0);
-        break;
-      }  
-      case 'South': {
-          moveRobot(0,-1);
-        break;
-      }  
-      case 'West': {
-          moveRobot(-1,0);
-        break;
-      }
-    }
+  //   switch(arrow?.classList.value) {
+  //     case 'North': {
+  //         moveRobot(0,1);
+  //       break;
+  //     }
+  //     case 'East': {
+  //         moveRobot(1,0);
+  //       break;
+  //     }  
+  //     case 'South': {
+  //         moveRobot(0,-1);
+  //       break;
+  //     }  
+  //     case 'West': {
+  //         moveRobot(-1,0);
+  //       break;
+  //     }
+  //   }
 
 }
 

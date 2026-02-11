@@ -39,6 +39,8 @@ const generateGrid = (gridSize: number) => {
  */
 const moveRobotTile = (currentPosition: { x: number, y: number, f: string }, gridSize: number) => {
 
+    // console.log('moving composable')
+
     //ignore movement command if robot has not been placed yet
     if (currentPosition.f == 'notPlaced')
         return;
@@ -164,7 +166,7 @@ const updateRobotView = (robotTile: HTMLElement|null, arrow: HTMLElement|null, c
 
         }
 
-        console.log('new robot position', newRow, newCol, arrow.classList.value)
+        console.log('new robot row/col position', newRow, newCol, arrow.classList.value)
     }
     return currentViewPosition;
 }
