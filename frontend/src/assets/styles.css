@@ -45,6 +45,7 @@ body {
 
 .grid-tile {
     border: 1px solid var(--grid-line);
+    background-color: var(--background-secondary);
     
 }
 

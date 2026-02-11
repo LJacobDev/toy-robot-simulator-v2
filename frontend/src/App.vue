@@ -2,6 +2,11 @@
 
 import { ref, computed, onMounted } from 'vue';
 import usePositions from './composables/usePositions';
+import useGame from './composables/useGame';
+
+const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositions();
+
+const { gridTiles, generateGrid } = useGame();
 
 const placed = ref(false);
 const currentPosition = ref(undefined);
@@ -11,7 +16,6 @@ const report = computed(() => {
   return placed.value ? `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` : 'Report'
 });
 
-const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositions();
 
 onMounted(async () => {
 
@@ -28,7 +32,7 @@ onMounted(async () => {
     console.log('there is no latest position and the robot will not be on the board');
   }
 
-
+  generateGrid(5);
 
 
 });
@@ -58,7 +62,14 @@ onMounted(async () => {
         </div>
 
         <!-- Grid Tiles -->
-        <div data-x="0" data-y="0" data-row="5" data-col="1" id="1" class="grid-tile one">0,2 (1)</div>
+        <div 
+          v-for="gridTile in gridTiles" 
+          :key="gridTile.id"
+          data-x="0" 
+          data-y="0" 
+          data-row="5" 
+          data-col="1"  
+          class="grid-tile">{{ gridTile.x }},{{ gridTile.y }}</div>
       </div>
 
       <!-- Console Area (Buttons and Output) -->
