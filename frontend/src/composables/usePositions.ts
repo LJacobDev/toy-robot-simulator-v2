@@ -68,6 +68,8 @@ const saveCurrentPosition = async (position: object) => {
 
         console.log("post results: ", json);
 
+        return {saved:true}
+
     }
     catch (e) {
         console.log("API POST error: ", e);
@@ -83,6 +85,8 @@ const saveCurrentPosition = async (position: object) => {
  */
 const deleteAllPositions = async () => {
 
+    let results;
+
     try{
 
         const response = await fetch(APIPath, {
@@ -92,6 +96,7 @@ const deleteAllPositions = async () => {
         const json = await response.json();
 
         console.log("delete results: ", json);
+        return json;
 
     }
     catch (e) {
