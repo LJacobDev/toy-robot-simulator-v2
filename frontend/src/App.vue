@@ -1,22 +1,22 @@
 <script setup lang="ts">
 
 import { onMounted } from 'vue';
+import usePositions from './composables/usePositions';
+
+const { getLatestPosition } = usePositions();
 
 onMounted( async () => {
 
-  let latestPosition = {};
-  
-  try {
-    const response = await fetch('http://localhost:3000/api/positions');
-    const positionsJSON = await response.json();
-    latestPosition = positionsJSON[positionsJSON.length - 1];
-    console.log("the latest position is ", latestPosition) 
-    console.log("the position array is ", positionsJSON) 
+  const latestPosition = await getLatestPosition();
 
+  if (latestPosition) {
+    console.log('there is a latest position and the robot will be assigned it')
   }
-  catch (e) {
-    console.log("API fetching error: ", e);
+  else {
+    console.log('there is no latest position and the robot will not be on the board');
   }
+
+  
 });
 
 </script>
