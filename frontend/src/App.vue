@@ -6,7 +6,7 @@ import useGame from './composables/useGame';
 
 const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositions();
 
-const { gridTiles, generateGrid } = useGame();
+const { gridTiles, generateGrid, updateRobotView, moveRobotTile, turnRobot } = useGame();
 
 // reference to robot character tile
 let robot: HTMLElement | null;
@@ -207,6 +207,17 @@ onMounted(async () => {
   // Retrieve last saved position from database
   currentPosition.value = await getLatestPosition();
 
+  // place the robot visually if there is a position
+  if (currentPosition.value.f == 'notPlaced') {
+    console.log('there is no latest position and the robot will not be on the board');
+  }
+  else {
+      console.log('there is a latest position and the robot will be assigned it')
+
+      updateRobotView(robot, arrow, currentPosition, GRID_SIZE);
+
+  }
+
 
   // add keydown events for the arrow keys to trigger the same movement handlers that the buttons activate
   document.addEventListener('keydown', (event) => {
@@ -222,12 +233,7 @@ onMounted(async () => {
   // Debug info - this can be deleted
   console.log('app.vue log latestposition is ', currentPosition.value);
 
-  if (currentPosition.value.f == 'notPlaced') {
-    console.log('there is no latest position and the robot will not be on the board');
-  }
-  else {
-      console.log('there is a latest position and the robot will be assigned it')
-  }
+  
 
   
 
