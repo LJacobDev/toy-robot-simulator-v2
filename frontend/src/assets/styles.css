@@ -50,11 +50,11 @@ body {
 
 /* Robot and Arrow Styles */
 
+/* The main tile that moves the robot on the grid,
+by changing its grid-column and grid-row */
 #robot-tile {
-    visibility: visible;
     grid-row: 1;
     grid-column: 1;
-    
     anchor-name: --robot-tile;
 }
 

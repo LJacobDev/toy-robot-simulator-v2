@@ -36,7 +36,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  
+
   <!-- Main Viewspace -->
   <div class="game-window">
     <div class="container">
@@ -46,7 +46,7 @@ onMounted(async () => {
       <div class="grid">
 
         <!-- Player Robot Character -->
-        <div id="robot-tile" class="grid-tile">
+        <div v-if="placed" id="robot-tile" class="grid-tile">
           <div id="robot">
             <div id="robot-head">
               <div class="robot-eye"></div>
@@ -54,7 +54,7 @@ onMounted(async () => {
             </div>
             <div id="robot-body"></div>
           </div>
-          <div id="arrow" class="north">></div>
+          <div id="arrow" class="east">></div>
         </div>
 
         <!-- Grid Tiles -->
