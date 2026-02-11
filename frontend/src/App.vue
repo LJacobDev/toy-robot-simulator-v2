@@ -8,12 +8,19 @@ const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositi
 
 const { gridTiles, generateGrid, updateRobotView, moveRobot, turnRobot } = useGame();
 
+// Set this to equal the same value as
+// custom-properties.css --grid-size
+// and it should do any square size
+const GRID_SIZE = 5;
+
+
 // reference to robot character tile
 let robot: HTMLElement | null;
 let arrow: HTMLElement | null;
 
 const currentPosition = ref({x:0,y:0,f:''});
-const GRID_SIZE = 5;
+
+
 
 // This will show 'Report' when the player is not on the board, and will show their current co-ordinates and direction if they are on the board
 const report = computed(() => {

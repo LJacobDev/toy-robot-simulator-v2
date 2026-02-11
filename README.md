@@ -40,6 +40,8 @@ However with CORS enabled on the nest server, it is still possible to use vite d
 
 --- mention somewhere that the grid size is customizeable by setting CSS custom properties
 
+  - currently it has to be set BOTH in custom-properties.css and in the app.vue file for it to work
+
  - include notes about things out of scope if helpful to show that they were thought about and not included, like how auth wasn't implemented on purpose
  
  - sqlite was originally not being gitignored on purpose but now it seems unimportant to keep in repo

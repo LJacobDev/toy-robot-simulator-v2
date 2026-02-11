@@ -1,5 +1,6 @@
 :root{
     /* Grid Size */
+    /* this needs to manually match GRID_SIZE in App.vue */
     --grid-size: 5;
 
     /* Borders */
