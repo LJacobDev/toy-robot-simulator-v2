@@ -17,6 +17,16 @@ const report = computed(() => {
 });
 
 
+const gridTileClick = (event) => {
+  console.log(
+    event.target.dataset.x, 
+    event.target.dataset.y,
+    event.target.dataset.row, 
+    event.target.dataset.col,
+  );
+}
+
+
 onMounted(async () => {
 
   currentPosition.value = await getLatestPosition();
@@ -69,7 +79,9 @@ onMounted(async () => {
           :data-y="gridTile.y" 
           :data-row="gridTile.row" 
           :data-col="gridTile.col"  
-          :style="{'grid-row': gridTile.row, 'grid-column': gridTile.col}"
+          :style="{'grid-row': gridTile.row, 
+          'grid-column': gridTile.col}"
+          @click="gridTileClick"
           class="grid-tile">{{ gridTile.x }},{{ gridTile.y }}</div>
       </div>
 
