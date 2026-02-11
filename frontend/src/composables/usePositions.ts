@@ -5,8 +5,6 @@ const loading = ref(false);
 
 const APIPath = import.meta.env.MODE == 'production' ? 'api/positions' : 'http://localhost:3000/api/positions';
 
-
-
 /**
  * Uses GET request to api/positions to get all positions, so that the 
  * robot's latest position can be determined 
@@ -37,7 +35,6 @@ const getLatestPosition = async () => {
     }
 
     return latestPosition;
-
 };
 
 
@@ -51,11 +48,7 @@ const getLatestPosition = async () => {
  * Currently logs errors in the console rather than throwing
  */
 const saveCurrentPosition = async (position: object) => {
-
-    // take the position and use a POST to api/positions
-
-    try{
-
+    try {
         const response = await fetch(APIPath, {
             method: "POST",
             headers: {
@@ -63,19 +56,15 @@ const saveCurrentPosition = async (position: object) => {
             },
             body: JSON.stringify(position)
         })
-        
+
         const json = await response.json();
 
-        console.log("post results: ", json);
-
-        return {saved:true}
+        return { saved: true }
 
     }
     catch (e) {
         console.log("API POST error: ", e);
     }
-
-
 }
 
 /**
@@ -87,30 +76,23 @@ const deleteAllPositions = async () => {
 
     let results;
 
-    try{
+    try {
 
         const response = await fetch(APIPath, {
             method: "DELETE"
         })
-        
+
         const json = await response.json();
 
-        console.log("delete results: ", json);
+        // console.log("delete results: ", json);
         return json;
-
     }
     catch (e) {
         console.log("API DELETE error: ", e);
     }
-
-
 }
 
-
 export default function usePositions() {
-
-
-
 
     return {
         loading,
