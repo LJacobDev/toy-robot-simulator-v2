@@ -36,47 +36,69 @@ const gridTileClick = (event: any) => {
   );
 
   if(currentPosition.value.f == 'notPlaced') {
+
     currentPosition.value = {
       x: clickData.x,
       y: clickData.y,
       f: 'North'
-    }
+    };
+
+    if (arrow){
+      arrow.classList.add('North');
+  }
+
   }
   else {
     currentPosition.value.x = clickData.x;
     currentPosition.value.y = clickData.y;
   }
   
-  
   if (robot){
     robot.style.gridColumn = clickData.col;
     robot.style.gridRow = clickData.row;
 
+    if (robot.style.visibility != 'visible')
     robot.style.visibility = 'visible';
   }
-  if (arrow){
-    arrow.classList.add('North');
-  }
-
 }
 
+const turnLeft = () => {
+  if (currentPosition.value.f = 'notPlaced')
+    return;
+
+    console.log('left button clicked');
+}
+
+const turnRight = () => {
+  if (currentPosition.value.f = 'notPlaced')
+    return;
+  
+}
+
+const moveForward = () => {
+  if (currentPosition.value.f = 'notPlaced')
+    return;
+  
+}
 
 onMounted(async () => {
 
+  // get references to the robot-tile and arrow elements to move them 
   robot = document.getElementById('robot-tile');
   arrow = document.getElementById('arrow');
 
+  // generate a grid of size 5 x 5
   generateGrid(5);
 
   currentPosition.value = await getLatestPosition();
 
   console.log('app.vue log latestposition is ', currentPosition.value);
 
-  if (currentPosition.value.f != 'notPlaced') {
-    console.log('there is a latest position and the robot will be assigned it')
+  if (currentPosition.value.f == 'notPlaced') {
+    console.log('there is no latest position and the robot will not be on the board');
   }
   else {
-    console.log('there is no latest position and the robot will not be on the board');
+      console.log('there is a latest position and the robot will be assigned it')
   }
 
 
@@ -118,15 +140,18 @@ onMounted(async () => {
           :style="{'grid-row': gridTile.row, 
           'grid-column': gridTile.col}"
           @click="gridTileClick"
-          class="grid-tile">{{ gridTile.x }},{{ gridTile.y }}</div>
+          class="grid-tile">
+            <!-- {{ gridTile.x }},
+            {{ gridTile.y }} -->
+          </div>
       </div>
 
       <!-- Console Area (Buttons and Output) -->
       <div class="console">
         <div class="controls">
-          <button>Left</button>
-          <button>Move</button>
-          <button>Right</button>
+          <button @click="turnLeft">Left</button>
+          <button @click="moveForward">Move</button>
+          <button @click="turnRight">Right</button>
         </div>
         <div class="output">
           <div class="report">{{ report }}</div>
