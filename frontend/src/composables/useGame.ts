@@ -1,4 +1,4 @@
-const gridTiles = [];
+const gridTiles: { id: number; row: number; col: number; x: number; y: number; }[] = [];
 
 /**
  * Generates an array that represents the grid tiles and their co-ordinate data

@@ -8,12 +8,12 @@ const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositi
 
 const { gridTiles, generateGrid } = useGame();
 
-const placed = ref(false);
-const currentPosition = ref(undefined);
+let placed = ref(false);
+const currentPosition = ref({x:0,y:0,f:''});
 
 // This will show 'Report' when the player is not on the board, and will show their current co-ordinates and direction if they are on the board
 const report = computed(() => {
-  return placed.value ? `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` : 'Report'
+  return placed ? `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` : 'Report'
 });
 
 
@@ -21,39 +21,52 @@ const report = computed(() => {
  * When grid tiles are clicked, this handler allows access to the grid row, grid column, as well as x and y coordinates to place the robot both on the grid with topleft being 1,1 and in its own coordinate system with bottom left being 0,0
  * @param event The grid tile that is clicked on
  */
-const gridTileClick = (event) => {
+const gridTileClick = (event: any) => {
+
+  const clickData = event.target.dataset;
+
+  placed.value = true;
+
   console.log(
-    event.target.dataset.x, 
-    event.target.dataset.y,
-    event.target.dataset.row, 
-    event.target.dataset.col,
+    clickData.x, 
+    clickData.y,
+    clickData.row, 
+    clickData.col,
   );
 
-  if (placed.value == false)
-    placed.value = true;
-  
+  currentPosition.value = {
+    x: clickData.x,
+    y: clickData.y,
+    f: 'North'
+  }
+
+
   const robot = document.getElementById('robot-tile')
-  robot.style.gridColumn = event.target.dataset.col;
-  robot.style.gridRow = event.target.dataset.row;
+  if (robot){
+    robot.style.gridColumn = clickData.col;
+    robot.style.gridRow = clickData.row;
+  }
+
 }
 
 
 onMounted(async () => {
 
+  generateGrid(5);
+
   currentPosition.value = await getLatestPosition();
 
   console.log('app.vue log latestposition is ', currentPosition.value);
 
-  if (currentPosition.value) {
+  if (currentPosition.value.f != 'notPlaced') {
     console.log('there is a latest position and the robot will be assigned it')
-    placed.value = true;
+    placed = true;
 
   }
   else {
     console.log('there is no latest position and the robot will not be on the board');
   }
 
-  generateGrid(5);
 
 
 });
@@ -71,7 +84,7 @@ onMounted(async () => {
       <div class="grid">
 
         <!-- Player Robot Character -->
-        <div v-if="placed" id="robot-tile" class="grid-tile">
+        <div id="robot-tile" style="visibility: visible;">
           <div id="robot">
             <div id="robot-head">
               <div class="robot-eye"></div>

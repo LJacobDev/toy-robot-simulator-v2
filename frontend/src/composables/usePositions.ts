@@ -1,7 +1,7 @@
 import { ref } from "vue";
 
 // makes showing loading states possible
-const loading = ref(false);
+// const loading = ref(false);
 
 const APIPath = import.meta.env.MODE == 'production' ? 'api/positions' : 'http://localhost:3000/api/positions';
 
@@ -15,11 +15,15 @@ const APIPath = import.meta.env.MODE == 'production' ? 'api/positions' : 'http:/
  */
 const getLatestPosition = async () => {
 
-    let latestPosition;
+    let latestPosition = {
+        x: 0,
+        y: 0,
+        f: 'notPlaced'
+    };
 
     try {
 
-        loading.value = true;
+        // loading.value = true;
 
         const response = await fetch(APIPath);
         const positionsJSON = await response.json();
@@ -31,7 +35,7 @@ const getLatestPosition = async () => {
         console.log("API fetching error: ", e);
     }
     finally {
-        loading.value = false;
+        // loading.value = false;
     }
 
     return latestPosition;
@@ -88,14 +92,13 @@ const deleteAllPositions = async () => {
         return json;
     }
     catch (e) {
-        console.log("API DELETE error: ", e);
+        console.log("API DELETE error: ", e); 
     }
 }
 
 export default function usePositions() {
 
     return {
-        loading,
         getLatestPosition,
         saveCurrentPosition,
         deleteAllPositions,
