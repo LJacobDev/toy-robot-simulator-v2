@@ -17,6 +17,10 @@ const report = computed(() => {
 });
 
 
+/**
+ * When grid tiles are clicked, this handler allows access to the grid row, grid column, as well as x and y coordinates to place the robot both on the grid with topleft being 1,1 and in its own coordinate system with bottom left being 0,0
+ * @param event The grid tile that is clicked on
+ */
 const gridTileClick = (event) => {
   console.log(
     event.target.dataset.x, 
@@ -24,6 +28,13 @@ const gridTileClick = (event) => {
     event.target.dataset.row, 
     event.target.dataset.col,
   );
+
+  if (placed.value == false)
+    placed.value = true;
+  
+  const robot = document.getElementById('robot-tile')
+  robot.style.gridColumn = event.target.dataset.col;
+  robot.style.gridRow = event.target.dataset.row;
 }
 
 
