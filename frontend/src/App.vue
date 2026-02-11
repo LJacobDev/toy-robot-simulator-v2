@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import usePositions from './composables/usePositions';
 import useGame from './composables/useGame';
 
@@ -19,6 +19,12 @@ const GRID_SIZE = 5;
 const report = computed(() => {
   return currentPosition.value.f == 'notPlaced' ? 'Report' : `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` 
 });
+
+
+watch(currentPosition, async (newPosition, oldPosition) => {
+  if(newPosition.f != 'notPlaced')
+    saveCurrentPosition(newPosition);
+})
 
 
 /**
@@ -78,21 +84,25 @@ const turnLeft = () => {
       case 'North': {
         arrow.classList.remove('North');
         arrow.classList.add('West');
+        currentPosition.value.f = 'West';
         break;
       }
       case 'West': {
         arrow.classList.remove('West');
         arrow.classList.add('South');
+        currentPosition.value.f = 'South';
         break;
       }  
       case 'South': {
         arrow.classList.remove('South');
         arrow.classList.add('East');
+        currentPosition.value.f = 'East';
         break;
       }  
       case 'East': {
         arrow.classList.remove('East');
         arrow.classList.add('North');
+        currentPosition.value.f = 'North';
         break;
       }
     }
@@ -108,21 +118,25 @@ const turnRight = () => {
       case 'North': {
         arrow.classList.remove('North');
         arrow.classList.add('East');
+        currentPosition.value.f = 'East';
         break;
       }
       case 'East': {
         arrow.classList.remove('East');
         arrow.classList.add('South');
+        currentPosition.value.f = 'South';
         break;
-      }  
+      }
       case 'South': {
         arrow.classList.remove('South');
         arrow.classList.add('West');
+        currentPosition.value.f = 'West';
         break;
       }  
       case 'West': {
         arrow.classList.remove('West');
         arrow.classList.add('North');
+        currentPosition.value.f = 'North';
         break;
       }
     }
@@ -182,6 +196,10 @@ const moveRobot = (x: number, y: number) => {
   }
 }
 
+
+
+
+
 onMounted(async () => {
 
   // get references to the robot-tile and arrow elements to move them 
@@ -203,6 +221,14 @@ onMounted(async () => {
   }
 
 
+  document.addEventListener('keydown', (event) => {
+    if(event.code == 'ArrowLeft')
+      turnLeft();
+    if(event.code == 'ArrowRight')
+      turnRight();
+    if(event.code == 'ArrowDown' || event.code == 'ArrowUp')
+      moveForward();
+  })
 
 });
 
