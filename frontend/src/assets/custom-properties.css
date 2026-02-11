@@ -8,8 +8,12 @@
     /* Spacing */
     --vertical-gap: 30px;
 
+    /* This positions the game window well for 1x zoom in full screen and half screen widths on desktop */
+    --view-scale-1x: 50px;
+
     /* Colors */
-    --color-primary: rgb(90, 175, 209);
+    --color-primary: rgb(90, 201, 245);
+    --color-primary-hover: rgb(155, 228, 255);
     --background-primary: rgb(40, 43, 51);
     --background-secondary: rgb(51, 62, 71);
     --grid-line: rgb(100, 100, 100);

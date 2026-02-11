@@ -1,20 +1,25 @@
 <script setup lang="ts">
 
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import usePositions from './composables/usePositions';
 
 const placed = ref(false);
+const currentPosition = ref(undefined);
 
+// This will show 'Report' when the player is not on the board, and will show their current co-ordinates and direction if they are on the board
+const report = computed(()=>{
+  return placed.value ? `${currentPosition.value.x}, ${currentPosition.value.y}, ${currentPosition.value.f} ` : 'Report'
+});
 
 const { getLatestPosition, saveCurrentPosition, deleteAllPositions } = usePositions();
 
 onMounted( async () => {
 
-  const latestPosition = await getLatestPosition();
+  currentPosition.value = await getLatestPosition();
 
-  console.log('app.vue log latestposition is ', latestPosition);
+  console.log('app.vue log latestposition is ', currentPosition.value);
 
-  if (latestPosition) {
+  if (currentPosition.value) {
     console.log( 'there is a latest position and the robot will be assigned it')
     placed.value = true;
 
@@ -24,16 +29,6 @@ onMounted( async () => {
   }
 
   
-  console.log("saving current position 0 0 North...");
-  saveCurrentPosition({x:0, y:0, f: 'North'});
-
-
-  console.log("reloading positions returns: ", await getLatestPosition());
-
-  console.log("deleting all position...");
-  deleteAllPositions();
-
-  console.log("reloading positions returns: ", await getLatestPosition());
 
 
 });
@@ -65,7 +60,7 @@ onMounted( async () => {
           <button>Right</button>
         </div>
         <div class="output">
-          <div class="report">Report</div>
+          <div class="report">{{report}}</div>
         </div>
       </div>
     </div>

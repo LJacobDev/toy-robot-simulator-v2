@@ -4,7 +4,8 @@
 
 body {
     min-height: 100vh;
-    padding: 20px;
+    /* this controls the 'centered-ness' of the game window */
+    padding: var(--view-scale-1x);
 }
 
 .game-window {
@@ -69,9 +70,13 @@ body {
     box-shadow: 0px 1px 1px black;
 }
 
+.controls > button:hover {
+    background-color: var(--color-primary-hover);
+}
+
 .output{
     margin:auto;
-    padding: 5px 20px;
+    padding: 10px 20px;
     text-align: center;
     color: var(--font-light);
     background-color: var(--background-secondary);
