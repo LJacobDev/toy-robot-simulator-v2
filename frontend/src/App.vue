@@ -72,69 +72,76 @@ const gridTileClick = (event: any) => {
 }
 
 const turnLeft = () => {
-  if (currentPosition.value.f == 'notPlaced')
-    return;
 
-    switch(arrow?.classList.value) {
-      case 'North': {
-        arrow.classList.remove('North');
-        arrow.classList.add('West');
-        currentPosition.value.f = 'West';
-        break;
-      }
-      case 'West': {
-        arrow.classList.remove('West');
-        arrow.classList.add('South');
-        currentPosition.value.f = 'South';
-        break;
-      }  
-      case 'South': {
-        arrow.classList.remove('South');
-        arrow.classList.add('East');
-        currentPosition.value.f = 'East';
-        break;
-      }  
-      case 'East': {
-        arrow.classList.remove('East');
-        arrow.classList.add('North');
-        currentPosition.value.f = 'North';
-        break;
-      }
-    }
+  turnRobot(arrow, -1, currentPosition);
+
+  // if (currentPosition.value.f == 'notPlaced')
+  //   return;
+
+  //   switch(arrow?.classList.value) {
+  //     case 'North': {
+  //       arrow.classList.remove('North');
+  //       arrow.classList.add('West');
+  //       currentPosition.value.f = 'West';
+  //       break;
+  //     }
+  //     case 'West': {
+  //       arrow.classList.remove('West');
+  //       arrow.classList.add('South');
+  //       currentPosition.value.f = 'South';
+  //       break;
+  //     }  
+  //     case 'South': {
+  //       arrow.classList.remove('South');
+  //       arrow.classList.add('East');
+  //       currentPosition.value.f = 'East';
+  //       break;
+  //     }  
+  //     case 'East': {
+  //       arrow.classList.remove('East');
+  //       arrow.classList.add('North');
+  //       currentPosition.value.f = 'North';
+  //       break;
+  //     }
+  //   }
 
     console.log(arrow?.classList.value == 'North');
 }
 
 const turnRight = () => {
-  if (currentPosition.value.f == 'notPlaced')
-    return;
+
+  turnRobot(arrow, 1, currentPosition);
+
+
+  // if (currentPosition.value.f == 'notPlaced')
+  //   return;
   
-    switch(arrow?.classList.value) {
-      case 'North': {
-        arrow.classList.remove('North');
-        arrow.classList.add('East');
-        currentPosition.value.f = 'East';
-        break;
-      }
-      case 'East': {
-        arrow.classList.remove('East');
-        arrow.classList.add('South');
-        currentPosition.value.f = 'South';
-        break;
-      }
-      case 'South': {
-        arrow.classList.remove('South');
-        arrow.classList.add('West');
-        currentPosition.value.f = 'West';
-        break;
-      }  
-      case 'West': {
-        arrow.classList.remove('West');
-        arrow.classList.add('North');
-        currentPosition.value.f = 'North';
-        break;
-      }
-    }
+  //   switch(arrow?.classList.value) {
+  //     case 'North': {
+  //       arrow.classList.remove('North');
+  //       arrow.classList.add('East');
+  //       currentPosition.value.f = 'East';
+  //       break;
+  //     }
+  //     case 'East': {
+  //       arrow.classList.remove('East');
+  //       arrow.classList.add('South');
+  //       currentPosition.value.f = 'South';
+  //       break;
+  //     }
+  //     case 'South': {
+  //       arrow.classList.remove('South');
+  //       arrow.classList.add('West');
+  //       currentPosition.value.f = 'West';
+  //       break;
+  //     }  
+  //     case 'West': {
+  //       arrow.classList.remove('West');
+  //       arrow.classList.add('North');
+  //       currentPosition.value.f = 'North';
+  //       break;
+  //     }
+  //   }
 
 }
 
@@ -150,60 +157,7 @@ const moveForward = () => {
     updateRobotView(robot, arrow, currentPosition, GRID_SIZE)
   }
 
-
-
-  // if (currentPosition.value.f == 'notPlaced')
-  //   return;
-  
-  //   switch(arrow?.classList.value) {
-  //     case 'North': {
-  //         moveRobot(0,1);
-  //       break;
-  //     }
-  //     case 'East': {
-  //         moveRobot(1,0);
-  //       break;
-  //     }  
-  //     case 'South': {
-  //         moveRobot(0,-1);
-  //       break;
-  //     }  
-  //     case 'West': {
-  //         moveRobot(-1,0);
-  //       break;
-  //     }
-  //   }
-
 }
-
-/**
- * Moves the tracked coordinates of the robot and updates the grid row and column styles of the robot element.  If the move will take the robot out of bounds it is ignored.
- * 
- * @param x use 1 to move to the right, -1 to move to the left
- * @param y use 1 to move up, -1 to move down
- */
-const moveRobot = (x: number, y: number) => {
-
-  if(x != 0) {
-    if(+currentPosition.value.x + x >= GRID_SIZE || +currentPosition.value.x + x < 0)
-      return;
-  }
-   
-  if(y != 0) {
-    if(+currentPosition.value.y + y >= GRID_SIZE || +currentPosition.value.y + y < 0)
-      return;
-  }
-  
-  currentPosition.value.x = +currentPosition.value.x + x;
-  currentPosition.value.y = +currentPosition.value.y + y;
-
-  if (robot){
-    console.log(robot.style.gridColumn);
-    robot.style.gridColumn = String(+robot.style.gridColumn + x);
-    robot.style.gridRow = String(+robot.style.gridRow - y);
-  }
-}
-
 
 
 

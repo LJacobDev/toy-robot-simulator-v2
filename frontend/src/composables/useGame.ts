@@ -101,8 +101,78 @@ const moveRobotTile = (currentPosition: { x: number, y: number, f: string }, gri
     return newPosition
 }
 
-const turnRobot = () => {
-    
+/**
+ * Takes a reference to the arrow of the robot and changes its class hook representing the direction it's facing so that CSS can pick up the hook and show the arrow in the corresponding direction
+ * @param arrow A reference to the HTMLElement with id 'arrow'
+ * @param direction -1 for left, 1 for right
+ * @param currentPosition the current position
+ * @returns a new direction for currentPosition.value.f to receive
+ */
+const turnRobot = (arrow: HTMLElement|null, direction: number, currentPosition: any) => {
+
+    // ignore controls when robot is not on board
+    if (currentPosition.value.f == 'notPlaced')
+        return;
+  
+    // Rotate right
+    if (direction == 1){
+        switch(arrow?.classList.value) {
+            case 'North': {
+                arrow.classList.remove('North');
+                arrow.classList.add('East');
+                currentPosition.value.f = 'East';
+                break;
+            }
+            case 'East': {
+                arrow.classList.remove('East');
+                arrow.classList.add('South');
+                currentPosition.value.f = 'South';
+                break;
+            }
+            case 'South': {
+                arrow.classList.remove('South');
+                arrow.classList.add('West');
+                currentPosition.value.f = 'West';
+                break;
+            }  
+            case 'West': {
+                arrow.classList.remove('West');
+                arrow.classList.add('North');
+                currentPosition.value.f = 'North';
+                break;
+            }
+        }
+    }
+    else if (direction == -1) {
+        switch(arrow?.classList.value) {
+            case 'North': {
+                arrow.classList.remove('North');
+                arrow.classList.add('West');
+                currentPosition.value.f = 'West';
+                break;
+            }
+            case 'West': {
+                arrow.classList.remove('West');
+                arrow.classList.add('South');
+                currentPosition.value.f = 'South';
+                break;
+            }  
+            case 'South': {
+                arrow.classList.remove('South');
+                arrow.classList.add('East');
+                currentPosition.value.f = 'East';
+                break;
+            }  
+            case 'East': {
+                arrow.classList.remove('East');
+                arrow.classList.add('North');
+                currentPosition.value.f = 'North';
+                break;
+            }
+        }
+    }
+
+    return currentPosition.value.f;
 }
 
 
