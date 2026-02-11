@@ -58,6 +58,16 @@ onMounted( async () => {
               <div id="arrow" class="east">></div>
           </div>
       </div>
+      <div class="console">
+        <div class="controls">
+          <button>Left</button>
+          <button>Move</button>
+          <button>Right</button>
+        </div>
+        <div class="output">
+          <div class="report">Report</div>
+        </div>
+      </div>
     </div>
   </div>
 

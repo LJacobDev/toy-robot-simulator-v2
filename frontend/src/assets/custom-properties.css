@@ -2,7 +2,14 @@
     /* Grid Size */
     --grid-size: 5;
 
-    /* colours */
+    /* Borders */
+    --border-medium: 8px;
+
+    /* Spacing */
+    --vertical-gap: 30px;
+
+    /* Colors */
+    --color-primary: rgb(90, 175, 209);
     --background-primary: rgb(40, 43, 51);
     --background-secondary: rgb(68, 82, 94);
     --grid-line: rgb(100, 100, 100);

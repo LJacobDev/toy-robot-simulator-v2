@@ -1,8 +1,11 @@
 * {
-    border: 1px solid black;
+    /* border: 1px solid black; */
 
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+
+    /* Remove border from buttons */
+    border: none;
 }
 
