@@ -86,6 +86,11 @@ const moveForward = () => {
 
   if (newPosition){
 
+    // Add enhancement here:
+    // Currently all moves, even clamped ones, save a new record in db.
+    // Here is where I would want to add RxJS filter to only send a
+    // new one if it's distinct from the previous one.
+
     console.log('saving move position', currentPosition.value);
     saveCurrentPosition(currentPosition.value)
 
