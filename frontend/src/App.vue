@@ -13,6 +13,7 @@ let robot: HTMLElement | null;
 let arrow: HTMLElement | null;
 
 const currentPosition = ref({x:0,y:0,f:''});
+const GRID_SIZE = 5;
 
 // This will show 'Report' when the player is not on the board, and will show their current co-ordinates and direction if they are on the board
 const report = computed(() => {
@@ -35,6 +36,20 @@ const gridTileClick = (event: any) => {
     clickData.col,
   );
 
+  // The robot's coordinates are tracked by x and y,
+  // however to place the robot on the grid it needs
+  // to use the CSS Grid row/col coordinates.
+  if (robot){
+    robot.style.gridColumn = clickData.col;
+    robot.style.gridRow = clickData.row;
+
+    if (robot.style.visibility != 'visible')
+    robot.style.visibility = 'visible';
+  }
+
+  // Update the player's tracked x and y coordinates
+  // If the player has not been placed on the board yet,
+  // place it at this click location and facing North
   if(currentPosition.value.f == 'notPlaced') {
 
     currentPosition.value = {
@@ -44,41 +59,127 @@ const gridTileClick = (event: any) => {
     };
 
     if (arrow){
-      arrow.classList.add('North');
+      arrow.classList.add(currentPosition.value.f);
+    }
   }
-
-  }
+  // If the player is already on the board, update x and y without changing arrow
   else {
     currentPosition.value.x = clickData.x;
     currentPosition.value.y = clickData.y;
   }
   
-  if (robot){
-    robot.style.gridColumn = clickData.col;
-    robot.style.gridRow = clickData.row;
-
-    if (robot.style.visibility != 'visible')
-    robot.style.visibility = 'visible';
-  }
 }
 
 const turnLeft = () => {
-  if (currentPosition.value.f = 'notPlaced')
+  if (currentPosition.value.f == 'notPlaced')
     return;
 
-    console.log('left button clicked');
+    switch(arrow?.classList.value) {
+      case 'North': {
+        arrow.classList.remove('North');
+        arrow.classList.add('West');
+        break;
+      }
+      case 'West': {
+        arrow.classList.remove('West');
+        arrow.classList.add('South');
+        break;
+      }  
+      case 'South': {
+        arrow.classList.remove('South');
+        arrow.classList.add('East');
+        break;
+      }  
+      case 'East': {
+        arrow.classList.remove('East');
+        arrow.classList.add('North');
+        break;
+      }
+    }
+
+    console.log(arrow?.classList.value == 'North');
 }
 
 const turnRight = () => {
-  if (currentPosition.value.f = 'notPlaced')
+  if (currentPosition.value.f == 'notPlaced')
     return;
   
+    switch(arrow?.classList.value) {
+      case 'North': {
+        arrow.classList.remove('North');
+        arrow.classList.add('East');
+        break;
+      }
+      case 'East': {
+        arrow.classList.remove('East');
+        arrow.classList.add('South');
+        break;
+      }  
+      case 'South': {
+        arrow.classList.remove('South');
+        arrow.classList.add('West');
+        break;
+      }  
+      case 'West': {
+        arrow.classList.remove('West');
+        arrow.classList.add('North');
+        break;
+      }
+    }
+
 }
 
 const moveForward = () => {
-  if (currentPosition.value.f = 'notPlaced')
+  if (currentPosition.value.f == 'notPlaced')
     return;
   
+    switch(arrow?.classList.value) {
+      case 'North': {
+          moveRobot(0,1);
+        break;
+      }
+      case 'East': {
+          moveRobot(1,0);
+        break;
+      }  
+      case 'South': {
+          moveRobot(0,-1);
+        break;
+      }  
+      case 'West': {
+          moveRobot(-1,0);
+        break;
+      }
+    }
+
+}
+
+/**
+ * Moves the tracked coordinates of the robot and updates the grid row and column styles of the robot element.  If the move will take the robot out of bounds it is ignored.
+ * 
+ * @param x use 1 to move to the right, -1 to move to the left
+ * @param y use 1 to move up, -1 to move down
+ */
+const moveRobot = (x: number, y: number) => {
+
+  if(x != 0) {
+    if(+currentPosition.value.x + x >= GRID_SIZE || +currentPosition.value.x + x < 0)
+      return;
+  }
+   
+  if(y != 0) {
+    if(+currentPosition.value.y + y >= GRID_SIZE || +currentPosition.value.y + y < 0)
+      return;
+  }
+  
+  currentPosition.value.x = +currentPosition.value.x + x;
+  currentPosition.value.y = +currentPosition.value.y + y;
+
+  if (robot){
+    console.log(robot.style.gridColumn);
+    robot.style.gridColumn = String(+robot.style.gridColumn + x);
+    robot.style.gridRow = String(+robot.style.gridRow - y);
+  }
 }
 
 onMounted(async () => {
@@ -88,7 +189,7 @@ onMounted(async () => {
   arrow = document.getElementById('arrow');
 
   // generate a grid of size 5 x 5
-  generateGrid(5);
+  generateGrid(GRID_SIZE);
 
   currentPosition.value = await getLatestPosition();
 
@@ -152,6 +253,9 @@ onMounted(async () => {
           <button @click="turnLeft">Left</button>
           <button @click="moveForward">Move</button>
           <button @click="turnRight">Right</button>
+          <!-- <button >Left</button>
+          <button >Move</button>
+          <button >Right</button> -->
         </div>
         <div class="output">
           <div class="report">{{ report }}</div>
