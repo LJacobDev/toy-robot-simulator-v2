@@ -1,89 +1,91 @@
 # Toy Robot Simulator V2
 
+# Contents
+[Architecture Choices](#architecture-choices)
 
-Rough version:
+[Project Flow](#project-flow)
 
+[Testing](#testing)
 
-this is made from a nestjs backend and a vuejs frontend
+[Assumptions and Decisions](#assumptions-made-at-points-of-uncertainty-where-i-couldnt-do-further-requirements-gathering)
 
-vueJS is in /frontend
+[How to Set up and Run this Project](#how-to-set-up-and-this-project)
 
-it is designed to build to /backend/public as static assets served by nest
+# Architecture Choices
+  
+  link to the API.md file
 
-``` setting up frontend
+# Project Flow
 
-cd frontend
-npm install
-npm run build   (should make index.html and index.js in /backend/public)
-```
+  decsribe the system components so it's easy to prepare to see what it's doing
 
-nestJS is in /backend
+# Testing
 
-``` setting up backend
-cd backend
-npm install
-npm run start
-
-or for watch mode:
-
-npm run start:dev
-```
-
-Nest runs server on localhost:3000
-
-No need to run vite dev server for frontend as this should just serve the built files and only run the one server
-
-However with CORS enabled on the nest server, it is still possible to use vite dev server on 5173 and fetch the API endpoint.
+- MENTION THAT THE UNIT TESTS ARE JUST HAPPY PATH
+- YOU WOULD NORMALLY THINK ABOUT (AND DO SEARCHES TO CHECK) 
+  WHAT A GOOD SET OF EDGE CASES WOULD BE FOR IT, 
+  IN ORDER TO BE SURE THAT HAPPY PATH, 
+  ERROR AND FAILURE STATES, MALFORMED INPUTS 
+  AND ANY OTHER LIKELY PROBLEM IS COVERED WITH A TEST
+  BEFORE IT CAN BE CONSIDERED A READY-TO-SHIP DELIVERABLE
 
 
+# Assumptions made at points of uncertainty where I couldn't do further requirements gathering
+ 
+   document my decisions about each
+	
 
-
---- mention somewhere that the grid size is customizeable by setting CSS custom properties
+### mention somewhere that the grid size is customizeable by setting CSS custom properties
 
   - currently it has to be set BOTH in custom-properties.css and in the app.vue file for it to work
 
- - include notes about things out of scope if helpful to show that they were thought about and not included, like how auth wasn't implemented on purpose
+
+### include notes about things out of scope if helpful to show that they were thought about and not included, like how auth wasn't implemented on purpose
  
- - sqlite was originally not being gitignored on purpose but now it seems unimportant to keep in repo
 
 
+# How to Set up and this Project
 
-# original README from nest installation for run commands to mix in final README
+## Step 1 - VueJS Frontend Setup
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+### Change to `frontend` directory
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+``` bash
+# change to frontend folder
+$ cd frontend          # (from project root)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
+# install dependencies
 $ npm install
 ```
 
-## Compile and run the project
+### Compile frontend as static assets
+
+```bash
+$ npm run build
+```
+Build artifacts will be placed automatically in `/backend/public`, where the NestJS server will serve them as static assets.
+
+### Run tests (optional)
+
+```bash
+$ npm run test:unit
+```
+
+## Step 2 - NestJS Backend Setup
+
+### Change to `backend` directory
+
+``` bash
+# change to backend folder
+$ cd ../backend       # (from frontend)
+-or-
+$ cd backend          # (from project root)
+
+# install dependencies
+$ npm install
+```
+
+### Compile and run the project
 
 ```bash
 # development
@@ -96,7 +98,7 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+### Run tests (optional)
 
 ```bash
 # unit tests
@@ -109,118 +111,20 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## Step 3 - Point Browser to NestJS Server
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Open a browser to localhost:3000 to use the playable app
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Clicking the buttons shown will **turn left**, **turn right**, and **move** the robot forward.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+The keyboard arrow keys also work in this way:
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Left arrow -> Turn left
 
-## Resources
+Right arrow -> Turn right
 
-Check out a few resources that may come in handy when working with NestJS:
+Up/Down arrow -> Move forward
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+![alt text](image-1.png)
 
 
-
-
-# original README from Vue scaffold to include run commands:
-
-frontend
-
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run test:e2e:dev
-```
-
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
-
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
-
-```sh
-npm run build
-npm run test:e2e
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
