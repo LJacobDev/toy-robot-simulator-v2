@@ -63,7 +63,29 @@ But this note is being made to indicate that in case the designer preferred that
 
 I made the assumption that the UX would be better to have it always shown, so that the area says "Report" when the robot is not on the board and then shows their position as "0, 0, North" when they are on the board.
 
+3.  In the instructions, the output examples show a mixture of using all uppercase or using one uppercase letter followed by lowercase for the directional information.  I tried using each in the app and it looked a little visually more pleasant to go with the first letter being uppercase only.
 
+4.  In creating the arrow that is used to show the robot's directional orientation: I originally wondered if there was a unicode character that already existed for such a shape, but the closest thing I could find was a greater-than sign that I would rotate.
+
+I took a close up look and noticed a difference where the design's arrow had a truly sharp point and the greater-than sign has a flat part on its tip.
+
+I knew that I could create a pixel perfect arrow if I made two divs and rotated them and turned them into a composed shape, but the visual difference was so small that it makes it potentially not worth the extra code to write it.  I'm documenting this though in case it is imporant to go back and get that shape perfect.
+
+5.  The design image of the game board has a yellow border around it, but I think that is a result of how figmas highlight the boundaries of things and isn't meant that the game needs the same kind of border.
+
+6.  It was nearly imperceptible due to image compression but it appeared that there was a slight shadow of about 1px under the control buttons, so I decided to add that in.  It definitely appeared that these buttons had more shadow than the other elements and that it might have been intentional.
+
+7.  Minor detail:  the output instructions show positions like '0,0,North' without spaces, but I have been displaying them with spaces as it is easier to read on the report output.
+
+8.  Deviation from the designs:  I didn't see anything indicating a hover state on the buttons, but as soon as I passed the mouse cursor over the buttons I could feel that they seemed to be missing something.  Adding a slight colour change on hover made the UX instantly feel a lot more fun and interactive.
+
+9.  Decision about nested reusable components in Vue: while it is advantageous to do this in some cases, it would have made the project unnecessarily complex as the App.vue file's template has no clutter and can be viewed and comprehended without having to jump elsewhere.
+
+It also makes the game a little more maintainable in its current form because it's easier to get direct understanding of what each file is responsible for.
+
+10.  Arrow keys for movement:  One might assume that the button click commands are 'turn left', 'turn right', 'move forward' but arrow keys might lend themselves to moding in 'up','down','left','right', however it seemed to be intending that arrow keys would issue turn and move commands just like the buttons do.
+
+So I used arrow left for turn left, arrow right for turn right, and up/down arrows both work to move forward in the direction being faced.
 
 
 
