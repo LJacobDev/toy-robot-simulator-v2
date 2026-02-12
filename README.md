@@ -1,7 +1,7 @@
 # Toy Robot Simulator V2
 
 # Contents
-[Architecture Choices](#architecture-choices)
+[Architecture](#architecture-choices)
 
 [Project Flow](#project-flow)
 
@@ -11,13 +11,27 @@
 
 [How to Set up and Run this Project](#how-to-set-up-and-this-project)
 
-# Architecture Choices
-  
-  link to the API.md file
+# Architecture
+
+This project uses NestJS as the backend framework, SQlite as the database, and VueJS as the frontend framework.
 
 # Project Flow
 
-  decsribe the system components so it's easy to prepare to see what it's doing
+The Nest backend makes available an API endpoint at  `/api/positions` that the frontend app uses to find all historical positions and recover its last known state, as well as to save new position history in the database.
+
+An additional action is accessible to delete all positions and clear out the history.  The simulator doesn't activate it, but `curl` can be used to access it to clear data during testing of the app.
+
+See the API specification [here](/docs/api.md).
+
+The frontend runs as a single page application that is served as static assets by Nest out of `/backend/public`.
+
+The app consists of a main `App.vue` that is responsible for templates and importing Vue composables that give it the state and logic needed to initialize and run the simulator.
+
+The frontend app was not refactored into sub components because its scope was such that the App.vue file is able to be easily understood and maintained in one file over splitting it up.
+
+The main app needs to know nothing about the backend, as it deals with the usePositions composable that handles API calls for it.
+
+Files are set up to favour separating responsibilities of each file, such as having `usePositions.ts` for database and API interaction and `useGame.ts` for game setup and execution logic.  Styles are handled entirely in dedicated css files where the styles follow a flow similar to the visual layout of the UI to keep it easy to navigate and work with. Intention was put into setting up class hooks so that JS and CSS didn't have to have mixed and hard-to-maintain knowledge about each other. They rely on class list hooks to co-ordinate appearances for each state, which also allows easier swapping out and changing of appearances later.
 
 # Testing
 

@@ -1,7 +1,6 @@
-# Api Reference for /api/positions
+# Api Reference: /api/positions
 
-
-## Authentication
+## Authentication (Out of scope)
 
 None for this version.
 
@@ -57,6 +56,7 @@ Responses:
 ]
 ```
 
+---
 
 ### create
 
@@ -88,7 +88,7 @@ Request Body:
     "createdAt": "2026-02-10 23:15:54"
 }
 ```
-
+---
 
 ### removeAll
 
