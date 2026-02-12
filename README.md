@@ -49,6 +49,24 @@ Whever not specified in these spec files, in general my testing preferences for 
 
 # Assumptions and Decisions
 
+There were a few minor ambiguities that seemed to have sensible default choices, but which were noticeable did require choices to be made.
+
+I wasn't able to do additional requirements gathering, so here is a series of places where I found uncertainties and what I decided to do with them:
+
+1. One instruction said that clicking a new tile while the robot is already on one, would move the **original robot** to that position.  Another instruction later on says that clicking to place the robot on a new tile should **delete the old one from the UI**.
+
+I took that to mean that clicking a tile should move the existing robot instance without leaving behind a duplicate UI visual of it that hasn't been cleaned up or deleted from view.  It will have the same UX with no apparent downsides.
+
+But this note is being made to indicate that in case the designer preferred that the robot truly is deleted and reinstantiated on tile clicks.
+
+2. It was unclear whether the `Report` section on the UI was meant to be a button that when clicked shows another view that reports the current position, or whether it was meant to always show the current position as its text contents.
+
+I made the assumption that the UX would be better to have it always shown, so that the area says "Report" when the robot is not on the board and then shows their position as "0, 0, North" when they are on the board.
+
+
+
+
+
 
 document my decisions about each point of uncertainty where I couldn't do further requirements gathering
 	
