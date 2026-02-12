@@ -1,7 +1,7 @@
 # Toy Robot Simulator V2
 
 # Contents
-[Architecture](#architecture-choices)
+[Architecture](#architecture)
 
 [Project Flow](#project-flow)
 
@@ -9,7 +9,7 @@
 
 [Assumptions and Decisions](#assumptions-and-decisions)
 
-[How to Set up and Run this Project](#how-to-set-up-and-this-project)
+[How to Set up and Run this Project](#how-to-set-up-and-run-this-project)
 
 # Architecture
 
@@ -109,7 +109,7 @@ This facilitated making the grid resizable as an unintended byproduct, so now as
 ## 12 - Authentication
 As mentioned in the API spec, normally sending HTTP requests with POST or DELETE that mutate data will need to have some kind of authentication middleware but it was out of scope for this project.
 
-# How to Set up and this Project
+# How to Set up and Run this Project
 
 ## Step 1 - VueJS Frontend Setup
 
