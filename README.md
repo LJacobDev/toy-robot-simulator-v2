@@ -45,7 +45,7 @@ Comments have been added into some of the spec files across the back end and fro
 
 There is generally a minimum level of test coverage and monitoring availability neededed before a feature or deliverable would be considered ready to ship.
 
-Whever not specified in these spec files, in general my testing preferences for a deliverable to be reliable is to have the happy path covered, and then to have deliberately thought of edge cases in input, potential malformed input, potential hostile inputs, error states and failure states, and protecting against regressions.  These can vary by situation, but these are the general patterns.
+Wherever not specified in these spec files, in general my testing preferences for a deliverable to be reliable is to have the happy path covered, and then to have deliberately thought of edge cases in input, potential malformed input, potential hostile input, error states and failure states, and protecting against regressions.  These can vary by situation, but these are the general patterns.
 
 # Assumptions and Decisions
 
