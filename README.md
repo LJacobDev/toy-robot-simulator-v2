@@ -190,6 +190,6 @@ Right arrow -> Turn right
 
 Up/Down arrow -> Move forward
 
-![alt text](image-1.png)
+![Image of app running](image.png)
 
 Please enjoy!
