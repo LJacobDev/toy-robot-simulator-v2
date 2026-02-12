@@ -53,41 +53,52 @@ There were a few minor ambiguities that seemed to have sensible default choices,
 
 I wasn't able to do additional requirements gathering, so here is a series of places where I found uncertainties and what I decided to do with them:
 
-1. One instruction said that clicking a new tile while the robot is already on one, would move the **original robot** to that position.  Another instruction later on says that clicking to place the robot on a new tile should **delete the old one from the UI**.
+## 1 -  Robot placement
+One instruction said that clicking a new tile while the robot is already on one, would move the **original robot** to that position.  Another instruction later on says that clicking to place the robot on a new tile should **delete the old one from the UI**.
 
 I took that to mean that clicking a tile should move the existing robot instance without leaving behind a duplicate UI visual of it that hasn't been cleaned up or deleted from view.  It will have the same UX with no apparent downsides.
 
 But this note is being made to indicate that in case the designer preferred that the robot truly is deleted and reinstantiated on tile clicks.
 
-2. It was unclear whether the `Report` section on the UI was meant to be a button that when clicked shows another view that reports the current position, or whether it was meant to always show the current position as its text contents.
+## 2 - Report output
+It was unclear whether the `Report` section on the UI was meant to be a button that when clicked shows another view that reports the current position, or whether it was meant to always show the current position as its text contents.
 
 I made the assumption that the UX would be better to have it always shown, so that the area says "Report" when the robot is not on the board and then shows their position as "0, 0, North" when they are on the board.
 
-3.  In the instructions, the output examples show a mixture of using all uppercase or using one uppercase letter followed by lowercase for the directional information.  I tried using each in the app and it looked a little visually more pleasant to go with the first letter being uppercase only.
+## 3 - Output casing
+In the instructions, the output examples show a mixture of using all uppercase or using one uppercase letter followed by lowercase for the directional information.  I tried using each in the app and it looked a little visually more pleasant to go with the first letter being uppercase only.
 
-4.  In creating the arrow that is used to show the robot's directional orientation: I originally wondered if there was a unicode character that already existed for such a shape, but the closest thing I could find was a greater-than sign that I would rotate.
+## 4 - Arrow design
+In creating the arrow that is used to show the robot's directional orientation: I originally wondered if there was a unicode character that already existed for such a shape, but the closest thing I could find was a greater-than sign that I would rotate.
 
 I took a close up look and noticed a difference where the design's arrow had a truly sharp point and the greater-than sign has a flat part on its tip.
 
 I knew that I could create a pixel perfect arrow if I made two divs and rotated them and turned them into a composed shape, but the visual difference was so small that it makes it potentially not worth the extra code to write it.  I'm documenting this though in case it is imporant to go back and get that shape perfect.
 
-5.  The design image of the game board has a yellow border around it, but I think that is a result of how figmas highlight the boundaries of things and isn't meant that the game needs the same kind of border.
+## 5 - Yellow border on design image
+The design image of the game board has a yellow border around it, but I think that is a result of how figmas highlight the boundaries of things and isn't meant that the game needs the same kind of border.
 
-6.  It was nearly imperceptible due to image compression but it appeared that there was a slight shadow of about 1px under the control buttons, so I decided to add that in.  It definitely appeared that these buttons had more shadow than the other elements and that it might have been intentional.
+## 6 - Shadow under buttons
+It was nearly imperceptible due to image compression but it appeared that there was a slight shadow of about 1px under the control buttons, so I decided to add that in.  It definitely appeared that these buttons had more shadow than the other elements and that it might have been intentional.
 
-7.  Minor detail:  the output instructions show positions like '0,0,North' without spaces, but I have been displaying them with spaces as it is easier to read on the report output.
+## 7 - Output spacing
+Minor detail:  the output instructions show positions like '0,0,North' without spaces, but I have been displaying them with spaces as it is easier to read on the report output.
 
-8.  Deviation from the designs:  I didn't see anything indicating a hover state on the buttons, but as soon as I passed the mouse cursor over the buttons I could feel that they seemed to be missing something.  Adding a slight colour change on hover made the UX instantly feel a lot more fun and interactive.
+## 8 - Deviating from the design in one place
+Deviation from the designs:  I didn't see anything indicating a hover state on the buttons, but as soon as I passed the mouse cursor over the buttons I could feel that they seemed to be missing something.  Adding a slight colour change on hover made the UX instantly feel a lot more fun and interactive.
 
-9.  Decision about nested reusable components in Vue: while it is advantageous to do this in some cases, it would have made the project unnecessarily complex as the App.vue file's template has no clutter and can be viewed and comprehended without having to jump elsewhere.
+## 9 - Decision about using nested components
+Decision about nested reusable components in Vue: while it is advantageous to do this in some cases, it would have made the project unnecessarily complex as the App.vue file's template has no clutter and can be viewed and comprehended without having to jump elsewhere.
 
 It also makes the game a little more maintainable in its current form because it's easier to get direct understanding of what each file is responsible for.
 
-10.  Arrow keys for movement:  One might assume that the button click commands are 'turn left', 'turn right', 'move forward' but arrow keys might lend themselves to moding in 'up','down','left','right', however it seemed to be intending that arrow keys would issue turn and move commands just like the buttons do.
+## 10 - Arrow keys for movement
+Arrow keys for movement:  One might assume that the button click commands are 'turn left', 'turn right', 'move forward' but arrow keys might lend themselves to moding in 'up','down','left','right', however it seemed to be intending that arrow keys would issue turn and move commands just like the buttons do.
 
 So I used arrow left for turn left, arrow right for turn right, and up/down arrows both work to move forward in the direction being faced.
 
-11.  Decision about Grid Size	in game:  The instructions are to make a 5x5 grid, and that the co-ordinates need to be 0,0 at the bottom left, and 4,4 at the top right.
+## 11 - Decision about unintentional Grid feature
+The instructions are to make a 5x5 grid, and that the co-ordinates need to be 0,0 at the bottom left, and 4,4 at the top right.
 
 This is different than the 'rows and columns' numbering of CSS Grid, and there didn't seem to be a quick way to reflow the grid to match it.
 
@@ -95,7 +106,8 @@ So I made logic in the useGame composable that could take in an integer input li
 
 This facilitated making the grid resizable as an unintended by product, so now as long as the custom-properties.css file and App.vue both have their respective 'grid size' variables kept manually in sync, the game will be able to show a 5x5 grid, and 10x10 and 100x100 have also been tested.
 
-12. As mentioned in the API spec, normally sending HTTP requests with POST or DELETE that mutate data will need to have some kind of authentication middleware but it was out of scope for this project.
+## 12 - Authentication
+As mentioned in the API spec, normally sending HTTP requests with POST or DELETE that mutate data will need to have some kind of authentication middleware but it was out of scope for this project.
 
 # How to Set up and this Project
 
