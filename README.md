@@ -104,7 +104,7 @@ This is different than the 'rows and columns' numbering of CSS Grid, and there d
 
 So I made logic in the useGame composable that could take in an integer input like 5, and produce an array of grid tiles that have their row, column, and corresponding x & y coorinates in one place.
 
-This facilitated making the grid resizable as an unintended by product, so now as long as the custom-properties.css file and App.vue both have their respective 'grid size' variables kept manually in sync, the game will be able to show a 5x5 grid, and 10x10 and 100x100 have also been tested.
+This facilitated making the grid resizable as an unintended byproduct, so now as long as the custom-properties.css file and App.vue both have their respective 'grid size' variables kept manually in sync, the game will be able to show a 5x5 grid, and 10x10 and 100x100 have also been tested.
 
 ## 12 - Authentication
 As mentioned in the API spec, normally sending HTTP requests with POST or DELETE that mutate data will need to have some kind of authentication middleware but it was out of scope for this project.
