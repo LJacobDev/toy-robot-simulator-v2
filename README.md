@@ -93,7 +93,7 @@ Decision about nested reusable components in Vue: while it is advantageous to do
 It also makes the game a little more maintainable in its current form because it's easier to get direct understanding of what each file is responsible for.
 
 ## 10 - Arrow keys for movement
-Arrow keys for movement:  One might assume that the button click commands are 'turn left', 'turn right', 'move forward' but arrow keys might lend themselves to moving 'up','down','left','right', however it seemed to be intended that arrow keys would issue turn and move commands just like the buttons do.
+Arrow keys for movement:  One might assume that the button click commands are 'turn left', 'turn right', 'move forward' but arrow keys might lend themselves to moving 'up', 'down', 'left', 'right', however it seemed to be intended that arrow keys would issue turn and move commands just like the buttons do.
 
 So I used arrow left for turn left, arrow right for turn right, and up/down arrows both work to move forward in the direction being faced.
 
