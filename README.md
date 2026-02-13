@@ -161,7 +161,7 @@ $ npm install
 
 ### Compile and run the project
 
-**Note**:  Localhost:3000 needs to be available for this server.  If it isn't available, alternative ports can be easily added in `backend\src\main.ts` in the statement on line 11: `await app.listen(process.env.PORT ?? 3000);`
+**Note**:  Localhost:3000 needs to be available for this server.  If it isn't available, alternative ports can be easily added in `backend/src/main.ts` in the statement on line 11: `await app.listen(process.env.PORT ?? 3000);`
 
 ```bash
 # development
