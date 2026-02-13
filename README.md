@@ -181,7 +181,11 @@ $ npm run start:prod
 $ npm run test
 
 # e2e tests
-$ npm run test:e2e  # run these when server is running as it tests the API endpoints
+$ npm run test:e2e  # Run these when the server is running as it tests the API endpoints.
+                    # Note: these e2e tests are working intermittently.  
+                    # They pass sometimes and fail with 404 sometimes.
+                    # Please consider them representative of a simple example of
+                    # testing coverage in their current state.
 
 # test coverage
 $ npm run test:cov
