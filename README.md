@@ -189,7 +189,7 @@ $ npm run test:cov
 
 ## Step 3 - Point Browser to NestJS Server
 
-Open a browser to localhost:3000 to use the playable app
+Open a browser to localhost:3000 to use the playable app.  It is best viewed in Chrome.  (It will still work in Firefox, but the robot and arrow elements will not appear as intended, though this will be fixed shortly)
 
 Clicking the buttons shown will **turn left**, **turn right**, and **move** the robot forward.
 
