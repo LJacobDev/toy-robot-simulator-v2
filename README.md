@@ -161,6 +161,8 @@ $ npm install
 
 ### Compile and run the project
 
+**Note**:  Localhost:3000 needs to be available for this server.  If it isn't available, alternative ports can be easily added in `backend\src\main.ts` in the statement on line 11: `await app.listen(process.env.PORT ?? 3000);`
+
 ```bash
 # development
 $ npm run start
@@ -179,7 +181,7 @@ $ npm run start:prod
 $ npm run test
 
 # e2e tests
-$ npm run test:e2e
+$ npm run test:e2e  # run these when server is running as it tests the API endpoints
 
 # test coverage
 $ npm run test:cov
