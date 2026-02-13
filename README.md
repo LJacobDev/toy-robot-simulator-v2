@@ -125,8 +125,17 @@ $ npm install
 
 ### Compile frontend as static assets
 
+Build only:
 ```bash
-$ npm run build
+$ npm run build-only    # Runs build without type checking.  
+                        # See example below for more information.
+```
+
+Build with type checking:
+```bash
+$ npm run build         # This will run `build-only` and `type-check` scripts.  
+                        # Type checking is currently giving error messagea about `Import.meta.env` not existing even though it is a part of Vite
+                        # This will be solved.
 ```
 Build artifacts will be placed automatically in `/backend/public`, where the NestJS server will serve them as static assets.
 
