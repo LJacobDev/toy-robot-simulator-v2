@@ -6,6 +6,3 @@ node_modules
 
 *.log
 env.*
-
-# VueJS static assets build folder
-/backend/public
